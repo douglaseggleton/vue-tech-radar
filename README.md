@@ -2,7 +2,7 @@
 A D3 script to visualize a tech radar (inspired by ThoughtWorks and Zalando). Hacked together during one afternoon.
 
 ## Demo
-https://github.com/douglaseggleton/techradar
+https://douglaseggleton.github.io/techradar/
 
 ## How to Run
 
