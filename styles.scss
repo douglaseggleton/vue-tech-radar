@@ -38,6 +38,23 @@ text {
   }
 }
 
+.h1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: left;
+
+  &-large {
+    flex-basis: 100%;
+    display: inline-block;
+    font-size: 0.8em;
+  }
+  &-small {
+    flex-basis: 100%;
+    display: inline-block;
+    font-size: 0.5em;
+  }
+}
+
 .legend__color {
   display: inline-block;
   height: 20px;

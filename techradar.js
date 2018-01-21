@@ -1,17 +1,23 @@
 import * as d3 from 'd3';
 import { categories, technologies, statuses } from './data';
-             
-var container = 600;
-var size = 500;
-var padding = 5;
+import * as seedrandom from 'seedrandom';
 
-var fixedRandomPoints = true;
+var rng = seedrandom.default('');
+
+var container = 700;
+var size = 600;
+var padding = 5;
+var baseColor = '#85B5B4';
+
+var fixedRandomPoints = false;
 
 // Visual Config
 var strokeWidth = 2;
 var strokeColour = '#FFFFFF';
-var pointSize = 2;
-var pointLabelOffset = 5;
+var pointSize = 15;
+var pointLabelOffset = 3;
+
+var collisionThreshold = 20;
 
 function degrees(radians) {
   return radians * 180 / Math.PI
@@ -47,12 +53,12 @@ var numberCache = {};
 
 function generateCachedRandomNumber(i) {
   if (!numberCache[i]) {
-    var number = Math.random();
-    if (number < 0.05) {
-      number = number + 0.05;
+    var number = rng();
+    if (number < 0.1) {
+      number = number + 0.1;
     } 
-    if (number > 0.95) {
-      number = number - 0.05;
+    if (number > 0.9) {
+      number = number - 0.1;
     }
     numberCache[i] = number
   }
@@ -71,6 +77,7 @@ var radar = d3.select('#radar')
   .append('svg')
   .attr('width', container)
   .attr('height', container)
+  .attr('margin', 'auto')
 
 radar.selectAll('circle')
   .data(statuses)
@@ -78,9 +85,8 @@ radar.selectAll('circle')
   .append('circle')
   .attr('stroke', strokeColour)
   .attr('stroke-width', strokeWidth)
-  .attr('fill', function (d) {
-    return d.color;  
-  })
+  .attr('fill', baseColor)
+  .attr('opacity', '0.4')
   .attr('r', function (d, i) {
     return ((size / 2) / statuses.length) *      (statuses.length - i);
   })
@@ -149,14 +155,57 @@ radar.selectAll('text')
   })
 
   var points = radar.append('g');
+
+
+  points.selectAll('circle')
+  .data(technologies)
+  .enter()
+  .append('circle')
+  .attr('fill', function (d) {
+    return statuses[getStatusPositionByString(d.status)].color
+  })
+  .attr('r', pointSize)
+  .attr('cx', function (d, i) {
+    const // calculate the angle (radians) 
+      radiansPerCategory = getRadiansPerCategory(),
+      categoryPosition = getCategoryPositionByString(d.category),
+      categoryOffset = generateRandomNumber(getTechnologyPositionByString(d.name)) * radiansPerCategory,
+      angle = radiansPerCategory * (categoryPosition) + categoryOffset
+    const // calculate the radius
+      pixelsPerCategory = (size / 2) / statuses.length,
+      statusPosition = getStatusPositionByString(d.status),
+      sectorOffset = generateRandomNumber(getTechnologyPositionByString(d.name)) * pixelsPerCategory,
+      radius = (size / 2) - (statusPosition * pixelsPerCategory) - sectorOffset
+    const x = radius * Math.cos(angle);
+    return x + container / 2;
+  })
+  .attr('cy', function(d, i) {
+    const // calculate the angle (radians) 
+      radiansPerCategory = getRadiansPerCategory(),
+      categoryPosition = getCategoryPositionByString(d.category),
+      categoryOffset = generateRandomNumber(getTechnologyPositionByString(d.name)) * radiansPerCategory,
+      angle = radiansPerCategory * (categoryPosition) + categoryOffset;
+    const // calculate the radius
+      pixelsPerCategory = (size / 2) / statuses.length,
+      statusPosition = getStatusPositionByString(d.status),
+      sectorOffset = generateRandomNumber(getTechnologyPositionByString(d.name)) * pixelsPerCategory,
+      radius = (size / 2) - (statusPosition * pixelsPerCategory) - sectorOffset;
+    const y = radius * Math.sin(angle);
+    return y + container / 2;
+  })
+
+
+
+
     points.selectAll('text')
       .data(technologies)
       .enter() 
       .append('text')
       .text(function (d, i) {
-       return d.name;
+       return i;
     })
-    .attr('fill', 'black')
+    .attr('text-anchor', 'middle')
+    .attr('fill', 'white')
     .attr('font-size', size * 0.02)
     .attr('x', function (d, i) { 
       const // calculate the angle (radians) 
@@ -170,7 +219,7 @@ radar.selectAll('text')
       sectorOffset = generateRandomNumber(getTechnologyPositionByString(d.name)) * pixelsPerCategory,
       radius = (size / 2) - (statusPosition * pixelsPerCategory) - sectorOffset
     const x = radius * Math.cos(angle);
-    return x + container / 2 + pointLabelOffset;
+    return x + container / 2;
     })
     .attr('y', function(d, i) {
       const // calculate the angle (radians) 
@@ -184,42 +233,8 @@ radar.selectAll('text')
       sectorOffset = generateRandomNumber(getTechnologyPositionByString(d.name)) * pixelsPerCategory,
       radius = (size / 2) - (statusPosition * pixelsPerCategory) - sectorOffset;
     const y = radius * Math.sin(angle);
-    return y + container / 2 + pointLabelOffset;
+    return y + container / 2 + pointSize * 0.3;
     })
-
-    points.selectAll('circle')
-      .data(technologies)
-      .enter()
-      .append('circle')
-      .attr('r', pointSize)
-      .attr('cx', function (d, i) {
-        const // calculate the angle (radians) 
-          radiansPerCategory = getRadiansPerCategory(),
-          categoryPosition = getCategoryPositionByString(d.category),
-          categoryOffset = generateRandomNumber(getTechnologyPositionByString(d.name)) * radiansPerCategory,
-          angle = radiansPerCategory * (categoryPosition) + categoryOffset
-        const // calculate the radius
-          pixelsPerCategory = (size / 2) / statuses.length,
-          statusPosition = getStatusPositionByString(d.status),
-          sectorOffset = generateRandomNumber(getTechnologyPositionByString(d.name)) * pixelsPerCategory,
-          radius = (size / 2) - (statusPosition * pixelsPerCategory) - sectorOffset
-        const x = radius * Math.cos(angle);
-        return x + container / 2;
-      })
-      .attr('cy', function(d, i) {
-        const // calculate the angle (radians) 
-          radiansPerCategory = getRadiansPerCategory(),
-          categoryPosition = getCategoryPositionByString(d.category),
-          categoryOffset = generateRandomNumber(getTechnologyPositionByString(d.name)) * radiansPerCategory,
-          angle = radiansPerCategory * (categoryPosition) + categoryOffset;
-        const // calculate the radius
-          pixelsPerCategory = (size / 2) / statuses.length,
-          statusPosition = getStatusPositionByString(d.status),
-          sectorOffset = generateRandomNumber(getTechnologyPositionByString(d.name)) * pixelsPerCategory,
-          radius = (size / 2) - (statusPosition * pixelsPerCategory) - sectorOffset;
-        const y = radius * Math.sin(angle);
-        return y + container / 2;
-      })
 
 radar.selectAll('.category-label')
   .data(categories)
@@ -240,7 +255,6 @@ radar.selectAll('.category-label')
   const // calculate the radius
     radius = size / 2;
     const x = radius * Math.cos(angle);
-    //console.log('X', categoryPosition, d, angle, degrees(angle), `radius ${ radius }`, `x ${ x }`);
     return x + container / 2;
   })
   .attr('y', function(d, i) {

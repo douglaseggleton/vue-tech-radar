@@ -15,22 +15,43 @@ export const statuses = [{
 export const categories = [
   'frameworks',
   'tools',
+  'languages',
   'platform',
-  'languages']
+  'techniques']
 
-export const technologies = [{
-  name: 'VueJS',
-  category: 'frameworks',
-  status: 'hold',
-  icon: 'vuejs'
-}, {
-  name: 'Mocha',
-  category: 'frameworks',
-  status: 'hold',
-  icon: 'vuejs'
-}, {
-  name: 'Babel',
-  category: 'frameworks',
-  status: 'trial',
-  icon: 'vuejs'
-}]
+export const technologies = [
+  {
+    name: 'VueJS',
+    category: 'frameworks',
+    status: 'assess'
+  },
+  {
+    name: 'SailsJS',
+    category: 'frameworks',
+    status: 'assess'
+  },
+  {
+    name: 'Laravel',
+    category: 'frameworks',
+    status: 'assess'
+  },
+  {
+    name: 'Docker',
+    category: 'platform',
+    status: 'hold'
+  },
+  {
+    name: 'Yarn',
+    category: 'tools',
+    status: 'hold'
+  },
+  {
+    name: 'Observables',
+    category: 'techniques',
+    status: 'trial'
+  },
+  {
+    name: 'Javascript',
+    category: 'languages',
+    status: 'trial'
+  }]
