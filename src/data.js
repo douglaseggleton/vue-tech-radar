@@ -54,4 +54,9 @@ export const technologies = [
     name: 'Javascript',
     category: 'languages',
     status: 'trial'
+  },
+  {
+    name: 'Gulp',
+    category: 'tools',
+    status: 'trial'
   }]

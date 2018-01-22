@@ -1,5 +1,10 @@
+body {
+  color: #FFFFFF;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
 html {
-  background: #2C3E50;
+  background: linear-gradient(#3a5269 20%, #2C3E50);
   padding: 20px;
   display: flex;
   align-content: center;
@@ -12,36 +17,15 @@ text {
   text-transform: uppercase;
 }
 
-.legend {
-  text-transform: capitalize;
-  &__color {
-    display: inline-block;
-    height: 20px;
-    width: 20px;
-    border-radius: 20px;
-    margin-right: 10px;
-    margin-top: 2px;
-    margin-left: -30px;
-    position: absolute;
-  }
-  ul {
-    display: flex;
-    width: 100%;
-  }
-  li {
-    color: white;
-    list-style: none;
-    flex-grow: 1;
-    text-transform: uppercase;
-    font-weight: bold;
-    float: left;
-  }
-}
-
 .h1 {
   display: flex;
   flex-wrap: wrap;
   align-items: left;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 5em;
+  text-shadow: 3px 3px rgba(0, 0, 0, 0.3);
 
   &-large {
     flex-basis: 100%;
@@ -55,23 +39,7 @@ text {
   }
 }
 
-.legend__color {
-  display: inline-block;
-  height: 20px;
-  width: 20px;
-  border-radius: 20px;
-  margin-right: 10px;
-  margin-top: 2px;
-  margin-left: -30px;
-  position: absolute;
-}
-
-h1 {
-  font-weight: bold;
-  text-transform: uppercase;
-  color: white;
-  font-family: Helvetica;
-  text-align: center;
-  font-size: 5em;
-  text-shadow: 3px 3px rgba(0, 0, 0, 0.3);
+.radar-container {
+  display: flex;
+  justify-content: center;
 }

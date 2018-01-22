@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <div class="technology-item" v-for="(technology, index) in technologies" :key="technology.name">
-      <div class="technology-item__pointer" v-bind:style="{ backgroundColor: getStatusColor(technology.status ) }">
-        {{ index }}</div>
-      <div class="technology-item__name">{{ technology.name }}</div>
-    </div>
+    <radar-legend></radar-legend>
   </div>
 </template>
 
 <script>
 import { technologies, statuses } from './../data';
+import RadarLegend from './RadarLegend.vue';
 
 export default {
   name: 'app',
+  components: {
+    RadarLegend
+  },
   data: function () {
     return {
       technologies: technologies,
