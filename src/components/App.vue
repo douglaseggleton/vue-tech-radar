@@ -1,56 +1,37 @@
 <template>
   <div id="app">
+    <header>
+      <h1 class="h1">
+        <span class="h1-small">Build Your</span>
+        <span class="h1-large">Tech Radar</span>
+      </h1>
+    </header>
+    <radar></radar>
     <radar-legend></radar-legend>
   </div>
 </template>
 
 <script>
-import { technologies, statuses } from './../data';
-import RadarLegend from './RadarLegend.vue';
+import RadarLegend from './RadarLegend.vue'
+import Radar from './Radar.vue'
 
 export default {
   name: 'app',
   components: {
-    RadarLegend
-  },
-  data: function () {
-    return {
-      technologies: technologies,
-      statuses: statuses
-    }
-  },
-  methods: {
-    getStatusColor: function (status) {
-      const res = this.statuses.find((item) => {
-        return item.name === status
-      })
-      return res.color
-    }
+    RadarLegend,
+    Radar
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .technology-item {
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
+  #app {
     display: flex;
-    padding: 5px 0px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 
-    &__pointer {
-      height: 20px;
-      width: 20px;
-      border-radius: 20px;
-      padding: 5px;
-      text-align: center;
-      color: white;
-      font-weight: bold;
-    }
-
-    &__name {
-      padding: 5px;
-      margin-left: 10px;
-      font-weight: bold;
-    }
+  header {
+    flex-basis: 100%;
   }
 </style>

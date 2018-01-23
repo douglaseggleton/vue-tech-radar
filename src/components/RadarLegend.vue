@@ -12,8 +12,7 @@
 </template>
 
 <script>
-import { technologies, statuses } from './../data';
-import { categories } from './../data';
+import { technologies, statuses, categories } from './../data';
 
 export default {
   name: 'categoryForm',
