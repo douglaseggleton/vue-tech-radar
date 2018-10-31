@@ -9,11 +9,11 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "d3": "^4.12.2",
     "seedrandom": "^2.4.3",
     "vue": "^2.5.13"
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
     "babel-preset-env": "^1.6.1",
     "css-loader": "*",
     "eslint": "^4.16.0",
